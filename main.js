@@ -160,14 +160,14 @@ const ToDoList = (function() {
       }
     }
 
-    handleRemoveTask = index => {
+    handleRemoveTask(index) {
       return () => {
         this.tasks = this.tasks.filter((el, i) => index !== i)
         this.saveStatus()
       }
     }
 
-    handleToogleDoneTask = element => {
+    handleToogleDoneTask(element) {
       return () => {
         element.done = element.done ? false : true
         this.saveStatus()
