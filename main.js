@@ -6,14 +6,16 @@ const ToDoList = (function() {
       this.removeButton = null
     }
 
-    init() {
+    init(removeTask, ToogleDoneTask) {
       this.htmlElement = document.createElement('div')
       this.htmlElement.innerText = this.taskInfo.text
       this.htmlElement.classList.add('task')
+      this.htmlElement.addEventListener('click', ToogleDoneTask)
       this.taskInfo.done && this.htmlElement.classList.add('task--done')
 
       this.removeButton = document.createElement('div')
       this.removeButton.innerText = 'Remove'
+      this.removeButton.addEventListener('click', removeTask)
       this.removeButton.classList.add('task__remove-button')
 
       this.htmlElement.appendChild(this.removeButton)
@@ -158,6 +160,20 @@ const ToDoList = (function() {
       }
     }
 
+    handleRemoveTask = index => {
+      return () => {
+        this.tasks = this.tasks.filter((el, i) => index !== i)
+        this.saveStatus()
+      }
+    }
+
+    handleToogleDoneTask = element => {
+      return () => {
+        element.done = element.done ? false : true
+        this.saveStatus()
+      }
+    }
+
     render() {
       this.tasksBox.innerText = ''
 
@@ -173,19 +189,13 @@ const ToDoList = (function() {
       const filteredTasks = tasksToShow.filter(el =>
         el.text.toLowerCase().includes(this.filterText)
       )
+
       filteredTasks.forEach((element, index) => {
         const task = new Task(element)
-        task.init()
-
-        task.htmlElement.addEventListener('click', evt => {
-          task.taskInfo.done = task.taskInfo.done ? false : true
-          this.saveStatus()
-        })
-
-        task.removeButton.addEventListener('click', evt => {
-          this.tasks = this.tasks.filter((el, i) => index !== i)
-          this.saveStatus()
-        })
+        task.init(
+          this.handleRemoveTask(index),
+          this.handleToogleDoneTask(element)
+        )
 
         this.tasksBox.appendChild(task.htmlElement)
       })
