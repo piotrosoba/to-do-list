@@ -14,7 +14,7 @@ const ToDoList = (function() {
       this.taskInfo.done && this.htmlElement.classList.add('task--done')
 
       this.removeButton = document.createElement('div')
-      this.removeButton.innerText = 'Remove'
+      this.removeButton.innerText = ` X `
       this.removeButton.addEventListener('click', removeTask)
       this.removeButton.classList.add('task__remove-button')
 
@@ -104,6 +104,7 @@ const ToDoList = (function() {
 
       const showAll = this.newElement('div')
       showAll.innerText = 'All'
+      showAll.style.marginLeft = '10px'
       showAll.classList.add('show--active')
       showAll.addEventListener('click', evt => {
         this.changeShow(evt)

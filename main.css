@@ -1,3 +1,7 @@
+* {
+  font-family: Helvetica, sans-serif;
+}
+
 .task {
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
@@ -10,6 +14,10 @@
   word-wrap: break-word;
 }
 
+.task:hover {
+  background-color: silver;
+}
+
 .task__remove-button {
   text-decoration: none !important;
   color: red;
@@ -18,7 +26,17 @@
   top: 5px;
   border: 1px solid red;
   padding: 5px;
-  border-radius: 10px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task__remove-button:hover {
+  color: white;
+  background-color: red;
 }
 
 .task--done {
@@ -31,12 +49,11 @@
 
 .main-box {
   position: relative;
-  border: 1px solid black;
 }
 
 .form-box {
   position: relative;
-  border-bottom: 1px solid black;
+  border: 1px solid black;
 }
 
 .add-form {
@@ -67,14 +84,14 @@
 }
 
 .show {
-  border-radius: 5px;
-  margin: 5px;
+  border: 1px solid black;
+  margin-bottom: 10px;
   padding: 0px 3px;
   cursor: pointer;
   display: inline-block;
 }
 
 .show--active {
-  background-color: red;
+  background-color: silver;
   color: white;
 }
