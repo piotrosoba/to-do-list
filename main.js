@@ -181,10 +181,10 @@ const ToDoList = (function() {
         )
       }
 
-      const filteredTasks = tasksToShow.filter(el => {
+      const filteredTasks = tasksToShow.filter(task => {
         let checker = true
         this.filterText.split(' ').forEach(function(word) {
-          if (!el.text.toLowerCase().includes(word)) {
+          if (!task.text.toLowerCase().includes(word)) {
             checker = false
             return
           }
