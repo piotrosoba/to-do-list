@@ -14,7 +14,6 @@ const ToDoList = (function() {
       this.taskInfo.done && this.htmlElement.classList.add('task--done')
 
       this.removeButton = document.createElement('div')
-      this.removeButton.innerText = ` X `
       this.removeButton.addEventListener('click', removeTask)
       this.removeButton.classList.add('task__remove-button')
 
@@ -75,11 +74,11 @@ const ToDoList = (function() {
 
       const addFormTextInput = this.newElement('input')
       addFormTextInput.placeholder = 'Add task text here'
-      this.append(addFormTextInput, addForm, 'add-form__text-input')
+      this.append(addFormTextInput, addForm, 'form__text-input')
 
       const addFormSubmitButton = this.newElement('button')
       addFormSubmitButton.innerText = 'Add'
-      this.append(addFormSubmitButton, addForm, 'add-form__submit-button')
+      this.append(addFormSubmitButton, addForm, 'form__submit-button')
 
       const filterForm = this.newElement('form')
       filterForm.addEventListener('submit', evt => {
@@ -92,19 +91,14 @@ const ToDoList = (function() {
 
       const filterFormTextInput = this.newElement('input')
       filterFormTextInput.placeholder = 'Type text to filter'
-      this.append(filterFormTextInput, filterForm, 'filter-form__text-input')
+      this.append(filterFormTextInput, filterForm, 'form__text-input')
 
       const filterFormSubmitButton = this.newElement('button')
       filterFormSubmitButton.innerText = 'Filter'
-      this.append(
-        filterFormSubmitButton,
-        filterForm,
-        'filter-form__submit-button'
-      )
+      this.append(filterFormSubmitButton, filterForm, 'form__submit-button')
 
       const showAll = this.newElement('div')
       showAll.innerText = 'All'
-      showAll.style.marginLeft = '10px'
       showAll.classList.add('show--active')
       showAll.addEventListener('click', evt => {
         this.changeShow(evt)
@@ -187,9 +181,16 @@ const ToDoList = (function() {
         )
       }
 
-      const filteredTasks = tasksToShow.filter(el =>
-        el.text.toLowerCase().includes(this.filterText)
-      )
+      const filteredTasks = tasksToShow.filter(el => {
+        let checker = true
+        this.filterText.split(' ').forEach(function(word) {
+          if (!el.text.toLowerCase().includes(word)) {
+            checker = false
+            return
+          }
+        })
+        return checker
+      })
 
       filteredTasks.forEach((element, index) => {
         const task = new Task(element)
