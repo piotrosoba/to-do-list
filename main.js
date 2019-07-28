@@ -73,11 +73,11 @@ const ToDoList = (function() {
       this.append(addForm, formBox, 'add-form')
 
       const addFormTextInput = this.newElement('input')
-      addFormTextInput.placeholder = 'Add task text here'
+      addFormTextInput.placeholder = 'Wprowadź tekst'
       this.append(addFormTextInput, addForm, 'form__text-input')
 
       const addFormSubmitButton = this.newElement('button')
-      addFormSubmitButton.innerText = 'Add'
+      addFormSubmitButton.innerText = 'Dodaj'
       this.append(addFormSubmitButton, addForm, 'form__submit-button')
 
       const filterForm = this.newElement('form')
@@ -90,15 +90,15 @@ const ToDoList = (function() {
       this.append(filterForm, formBox, 'filter-form')
 
       const filterFormTextInput = this.newElement('input')
-      filterFormTextInput.placeholder = 'Type text to filter'
+      filterFormTextInput.placeholder = 'Wprowadź słowa kluczowe'
       this.append(filterFormTextInput, filterForm, 'form__text-input')
 
       const filterFormSubmitButton = this.newElement('button')
-      filterFormSubmitButton.innerText = 'Filter'
+      filterFormSubmitButton.innerText = 'Filtruj'
       this.append(filterFormSubmitButton, filterForm, 'form__submit-button')
 
       const showAll = this.newElement('div')
-      showAll.innerText = 'All'
+      showAll.innerText = 'Wszystkie'
       showAll.classList.add('show--active')
       showAll.addEventListener('click', evt => {
         this.changeShow(evt)
@@ -106,14 +106,14 @@ const ToDoList = (function() {
       this.append(showAll, formBox, 'show')
 
       const showPending = this.newElement('div')
-      showPending.innerText = 'Pending'
+      showPending.innerText = 'Niewykonane'
       showPending.addEventListener('click', evt => {
         this.changeShow(evt)
       })
       this.append(showPending, formBox, 'show')
 
       const showDone = this.newElement('div')
-      showDone.innerText = 'Done'
+      showDone.innerText = 'Wykonane'
       showDone.addEventListener('click', evt => {
         this.changeShow(evt)
       })
@@ -142,11 +142,11 @@ const ToDoList = (function() {
     textIfFiltered() {
       if (this.filterText) {
         const filterMessage = this.newElement('p')
-        filterMessage.innerText = `Results for: '${this.filterText}' `
+        filterMessage.innerText = `Wyniki dla: '${this.filterText}' `
         this.append(filterMessage, this.tasksBox, 'filter-message')
 
         const removeFilter = this.newElement('span')
-        removeFilter.innerText = '(delete filters)'
+        removeFilter.innerText = '(usuń filtry)'
         removeFilter.addEventListener('click', () => {
           this.filterText = ''
           this.render()
@@ -164,7 +164,7 @@ const ToDoList = (function() {
 
     handleToogleDoneTask(element) {
       return () => {
-        element.done = element.done ? false : true
+        element.done = !element.done
         this.saveStatus()
       }
     }
@@ -175,10 +175,8 @@ const ToDoList = (function() {
       this.textIfFiltered()
 
       let tasksToShow = this.tasks
-      if (this.show === 'pending' || this.show === 'done') {
-        tasksToShow = tasksToShow.filter(el =>
-          this.show === 'pending' ? !el.done : el.done
-        )
+      if (this.show === 'niewykonane' || this.show === 'wykonane') {
+        tasksToShow = tasksToShow.filter(el => (this.show === 'wykonane' ? !el.done : el.done))
       }
 
       const filteredTasks = tasksToShow.filter(task => {
@@ -194,10 +192,7 @@ const ToDoList = (function() {
 
       filteredTasks.forEach((element, index) => {
         const task = new Task(element)
-        task.init(
-          this.handleRemoveTask(index),
-          this.handleToogleDoneTask(element)
-        )
+        task.init(this.handleRemoveTask(index), this.handleToogleDoneTask(element))
 
         this.tasksBox.appendChild(task.htmlElement)
       })
