@@ -176,7 +176,7 @@ const ToDoList = (function() {
 
       let tasksToShow = this.tasks
       if (this.show === 'niewykonane' || this.show === 'wykonane') {
-        tasksToShow = tasksToShow.filter(el => (this.show === 'wykonane' ? !el.done : el.done))
+        tasksToShow = tasksToShow.filter(el => (this.show === 'niewykonane' ? !el.done : el.done))
       }
 
       const filteredTasks = tasksToShow.filter(task => {
